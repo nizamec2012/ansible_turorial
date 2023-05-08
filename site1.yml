@@ -1,0 +1,29 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+          
+  - name: Install updates (CentOS)
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS Linux"
+
+  - name: Updated respository index
+    apt:
+      upgrade: dist      
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu" 
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: Install apache2 package
+    apt:
+      name:
+        -  apache2
+        -  libapache2-mod-php
+      state: latest
+    when: ansible_distribution == "Ubuntu"

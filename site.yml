@@ -1,0 +1,35 @@
+---
+ 
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install apache and php for Ubuntu servers
+    apt:
+      name:
+       - apache2
+       - libapache2-mod-php
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+ 
+  - name: install apache and php for CentOS servers
+    dnf:
+      name:
+        - httpd
+        - php
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+- hosts: 20.232.201.98
+  become: true
+  tasks:
+
+  - name: Install Mariadb on Centos
+    yum:
+      name: 
+        - mariadb-server
+        - python3-PyMySQL
+      state: latest
+    when: ansible_distribution == "CentOS Linux"
